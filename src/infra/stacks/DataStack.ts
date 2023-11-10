@@ -1,7 +1,7 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { AttributeType, ITable, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
-import { getSuffixFromStack } from '../utils';
+import { getSuffixFromStack } from '../Utils';
 
 export class DataStack extends Stack {
     public readonly tasksTable: ITable;

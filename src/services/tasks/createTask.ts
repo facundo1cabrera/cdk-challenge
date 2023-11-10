@@ -1,13 +1,12 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from "aws-lambda";
-import { v4 } from 'uuid';
 import { validateAsITask } from "../shared/Validator";
 import { ITask } from "../models/ITask";
-import { parseJSON } from "../shared/Utils";
+import { createRandomId, parseJSON } from "../shared/Utils";
 
 export const createTask = async (event: APIGatewayProxyEvent, ddbClient: DynamoDBClient): Promise<APIGatewayProxyResult> => {
-    const randomId = v4();
+    const randomId = createRandomId();
     const item: ITask = parseJSON(event.body);
 
     validateAsITask(item);
