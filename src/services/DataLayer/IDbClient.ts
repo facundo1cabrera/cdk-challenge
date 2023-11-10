@@ -3,4 +3,5 @@ export interface IDbClient {
     getOneById(id: string);
     deleteById(id: string);
     update(id: string, body: any);
+    getAll();
 }

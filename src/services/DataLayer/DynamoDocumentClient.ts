@@ -13,6 +13,9 @@ export class DynamoDocumentClient implements IDbClient {
         this.dynamoDbDocumentClient = DynamoDBDocumentClient.from(this.dynamoDbClient);
         this.tableName = process.env.DYNAMO_TABLE_NAME;
     }
+    getAll() {
+        throw new Error("Method not implemented.");
+    }
 
 
     async create(item: any) {

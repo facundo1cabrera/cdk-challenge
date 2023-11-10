@@ -26,6 +26,12 @@ export class TasksPgClient implements IDbClient {
         }
     }
     
+    async getAll() {
+        await this.initConnection();
+        const result = await this.postgresClient.query('SELECT * FROM tasks');
+        return result.rows;
+    }
+
     async create(item: ITask) {
 
         await this.initConnection();

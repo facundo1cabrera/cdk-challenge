@@ -5,6 +5,10 @@ import { updateTask } from './updateTask';
 import { deleteTask } from './deleteTask';
 import { IncorrectTypeError, JSONError, MissingFieldError } from '../shared/Validator';
 import { TasksPgClient } from '../DataLayer/TasksPgClient';
+import * as dotenv from 'dotenv';
+import { getTasks } from './getTasks';
+
+dotenv.config();
 
 const dbClient = new TasksPgClient();
 
@@ -12,8 +16,13 @@ export const handler = async (event: APIGatewayProxyEvent, context: Context): Pr
   try {
     switch (event.httpMethod) {
       case 'GET':  
-        const getResponse = await getTask(event, dbClient);
-        return getResponse;
+        const id = event.pathParameters ? event.pathParameters['id'] : null;
+        if (id) {
+          const getResponse = await getTask(event, dbClient);
+          return getResponse;
+        }
+        const getAllResponse = await getTasks(event, dbClient);
+        return getAllResponse;
       case 'POST':
         const postResponse = await createTask(event, dbClient);
         return postResponse;
