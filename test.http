@@ -1,0 +1,46 @@
+GET  https://029aj3jmpb.execute-api.us-east-1.amazonaws.com/prod/tasks/{taskId}/comments
+###
+
+POST  https://029aj3jmpb.execute-api.us-east-1.amazonaws.com/prod/tasks/2/comments
+Content-Type: application/json
+
+{
+   "content": "Content of a comment",
+   "taskId": "taskId"
+}
+
+###
+
+// Gets all Tasks
+GET  https://029aj3jmpb.execute-api.us-east-1.amazonaws.com/prod/tasks/
+
+###
+
+// GetTask by Task id
+GET  https://029aj3jmpb.execute-api.us-east-1.amazonaws.com/prod/tasks/2
+
+###
+
+// Create a new Task
+POST  https://029aj3jmpb.execute-api.us-east-1.amazonaws.com/prod/tasks/
+Content-Type: application/json
+
+{
+   "description": "Task description",
+   "statuss": "InProgress"
+}
+
+###
+
+// Delete a Task
+DELETE https://029aj3jmpb.execute-api.us-east-1.amazonaws.com/prod/tasks/{taskId}
+
+###
+// Update a Task
+PUT https://029aj3jmpb.execute-api.us-east-1.amazonaws.com/prod/tasks/2
+Content-Type: application/json
+
+{
+   "description": "Updated description"
+}
+###
