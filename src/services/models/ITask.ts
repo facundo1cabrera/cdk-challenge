@@ -6,9 +6,4 @@ export interface ITask {
     lastUpdated: Date
 }
 
-export enum TaskStatus {
-    Backlog,
-    InProgress,
-    Testing,
-    Finished
-}
+export type TaskStatus = 'Backlog' | 'InProgress' | 'Testing' | 'Finished';

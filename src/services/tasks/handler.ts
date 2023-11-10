@@ -47,7 +47,7 @@ export const handler = async (event: APIGatewayProxyEvent, context: Context): Pr
     }
     return {
       statusCode: 500,
-      body: JSON.stringify({ errorMessage: error.message, test: 'this is the message updated' })
+      body: JSON.stringify({ errorMessage: error.message })
     }
   }
   
