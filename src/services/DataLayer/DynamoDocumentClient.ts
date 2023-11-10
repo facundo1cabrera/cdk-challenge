@@ -3,9 +3,6 @@ import { IDbClient } from "./IDbClient";
 import { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { parseJSON } from "../shared/Utils";
 
-const dbClient = new DynamoDBClient({});
-
-
 export class DynamoDocumentClient implements IDbClient {
     private dynamoDbClient: DynamoDBClient;
     private dynamoDbDocumentClient: DynamoDBDocumentClient;
@@ -14,7 +11,7 @@ export class DynamoDocumentClient implements IDbClient {
     constructor() {
         this.dynamoDbClient = new DynamoDBClient({});
         this.dynamoDbDocumentClient = DynamoDBDocumentClient.from(this.dynamoDbClient);
-        this.tableName = process.env.TABLE_NAME;
+        this.tableName = process.env.DYNAMO_TABLE_NAME;
     }
 
 

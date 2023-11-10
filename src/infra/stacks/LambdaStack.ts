@@ -8,7 +8,7 @@ import { Construct } from 'constructs';
 import { join } from 'path';
 
 interface LambdaStackProps extends StackProps {
-    tasksTable: ITable; 
+    commentsTable: ITable; 
 }
 
 
@@ -18,26 +18,25 @@ export class LambdaStack extends Stack {
     constructor(scope: Construct, id: string, props: LambdaStackProps) {
         super(scope, id, props);
 
-        const tasksLambda = new NodejsFunction(this, 'TasksLambda', {
+        const commentsLambda = new NodejsFunction(this, 'CommentsLambda', {
             runtime: Runtime.NODEJS_18_X,
             handler: 'handler',
-            entry: join(__dirname, '..', '..', 'services', 'tasks', 'handler.ts'),
+            entry: join(__dirname, '..', '..', 'services', 'comments', 'handler.ts'),
             environment: {
-                TABLE_NAME: props.tasksTable.tableName
+                DYNAMO_TABLE_NAME: props.commentsTable.tableName
             }
         });
 
-        tasksLambda.addToRolePolicy(new PolicyStatement({
+        commentsLambda.addToRolePolicy(new PolicyStatement({
             effect: Effect.ALLOW,
-            resources: [props.tasksTable.tableArn],
+            resources: [props.commentsTable.tableArn],
             actions: [
                 'dynamodb:PutItem',
                 'dynamodb:GetItem',
-                'dynamodb:UpdateItem',
                 'dynamodb:DeleteItem'
             ]
         }));
 
-        this.tasksLambdaIntegration = new LambdaIntegration(tasksLambda);
+        this.tasksLambdaIntegration = new LambdaIntegration(commentsLambda);
     }
 }

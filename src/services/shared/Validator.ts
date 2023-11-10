@@ -1,4 +1,5 @@
-import { ITask, TaskStatus } from "../models/ITask"
+import { IComment } from "../models/IComment";
+import { ITask } from "../models/ITask"
 
 
 export class MissingFieldError extends Error {
@@ -8,6 +9,8 @@ export class MissingFieldError extends Error {
 }
 
 export class JSONError extends Error {}
+
+export class BadRequestError extends Error {}
 
 export class IncorrectTypeError extends Error {
     constructor(fieldName: string, argValue: string, allowedValues: string[], type ) {
@@ -24,5 +27,14 @@ export const validateAsITask = (arg: any) => {
 
     if ((arg as ITask).status === undefined || !(allowedValues.includes((arg as ITask).status))){
         throw new IncorrectTypeError('status', (arg as ITask).status, allowedValues, 'Task');
+    }
+}
+
+export const validateAsIComment = (arg: any) => {
+    if ((arg as IComment).content === undefined) {
+        throw new MissingFieldError('content', 'Comment');
+    }
+    if ((arg as IComment).taskId === undefined) {
+        throw new MissingFieldError('taskId', 'Comment');
     }
 }
