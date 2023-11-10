@@ -4,7 +4,7 @@ import { ITask } from "../models/ITask"
 
 export class MissingFieldError extends Error {
     constructor(missingField: string, type: string) {
-        super(`A value for ${missingField} in ${type} is expected.`);
+        super(`The ${missingField} is a required field.`);
     }
 }
 
