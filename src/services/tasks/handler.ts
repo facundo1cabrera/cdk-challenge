@@ -4,7 +4,7 @@ import { createTask } from './createTask';
 import { getTask } from './getTask';
 import { updateTask } from './updateTask';
 import { deleteTask } from './deleteTask';
-import { IncorrectTypeError, MissingFieldError } from '../shared/Validator';
+import { IncorrectTypeError, JSONError, MissingFieldError } from '../shared/Validator';
 
 const dbClient = new DynamoDBClient({});
 
@@ -35,6 +35,12 @@ export const handler = async (event: APIGatewayProxyEvent, context: Context): Pr
       }
     }
     if (error instanceof IncorrectTypeError) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify(error.message)
+      }
+    }
+    if (error instanceof JSONError) {
       return {
         statusCode: 400,
         body: JSON.stringify(error.message)

@@ -4,10 +4,11 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from "aws-lambda
 import { v4 } from 'uuid';
 import { validateAsITask } from "../shared/Validator";
 import { ITask } from "../models/ITask";
+import { parseJSON } from "../shared/Utils";
 
 export const createTask = async (event: APIGatewayProxyEvent, ddbClient: DynamoDBClient): Promise<APIGatewayProxyResult> => {
     const randomId = v4();
-    const item: ITask = JSON.parse(event.body);
+    const item: ITask = parseJSON(event.body);
 
     validateAsITask(item);
 
