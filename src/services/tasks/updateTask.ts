@@ -7,7 +7,7 @@ export const updateTask = async (event: APIGatewayProxyEvent, ddbClient: IDbClie
     
     const id = event.pathParameters['id'];
 
-    const getItemResult = await ddbClient.getOneById(id);
+    const getItemResult = await ddbClient.getById(id);
 
     if (!getItemResult.Item) {
         return {

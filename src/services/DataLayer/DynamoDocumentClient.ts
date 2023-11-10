@@ -1,6 +1,6 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { IDbClient } from "./IDbClient";
-import { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, ScanCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { parseJSON } from "../shared/Utils";
 
 export class DynamoDocumentClient implements IDbClient {
@@ -25,10 +25,13 @@ export class DynamoDocumentClient implements IDbClient {
         }));
     }
 
-    async getOneById(id: string) {
-        const getResult = await this.dynamoDbDocumentClient.send(new GetCommand({
+    async getById(id: string) {
+        const getResult = await this.dynamoDbDocumentClient.send(new ScanCommand({
             TableName: this.tableName,
-            Key: { id }
+            FilterExpression: 'taskId = :id',
+            ExpressionAttributeValues: {
+                ':id': id
+            }
         }));
         return getResult;
     }

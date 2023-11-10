@@ -1,6 +1,6 @@
 export interface IDbClient {
     create(item: any);
-    getOneById(id: string);
+    getById(id: string);
     deleteById(id: string);
     update(id: string, body: any);
     getAll();

@@ -43,7 +43,7 @@ export class TasksPgClient implements IDbClient {
         ]);
     }
 
-    async getOneById(id: string) {
+    async getById(id: string) {
         await this.initConnection();
         const response = await this.postgresClient.query('SELECT * from tasks where id=$1', [id]);
         return {

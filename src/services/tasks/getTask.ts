@@ -5,7 +5,7 @@ export const getTask = async (event: APIGatewayProxyEvent, ddbClient: IDbClient)
     
     const id = event.pathParameters['id'];
 
-    const result = await ddbClient.getOneById(id);
+    const result = await ddbClient.getById(id);
 
     if (result.Item) {
         return {

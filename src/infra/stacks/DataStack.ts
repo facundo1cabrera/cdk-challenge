@@ -15,6 +15,10 @@ export class DataStack extends Stack {
                 name: 'id',
                 type: AttributeType.STRING,
             },
+            sortKey: {
+                name: 'taskId',
+                type: AttributeType.STRING
+            },
             tableName: `TasksTable-${suffix}`
         });
     }

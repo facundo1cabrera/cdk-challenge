@@ -8,24 +8,14 @@ export const createComment = async (event: APIGatewayProxyEvent, ddbClient: IDbC
     const randomId = createRandomId();
     const item: IComment = parseJSON(event.body);
 
-    // TODO: validate this once the rds table is ok
-    // const getResult = await ddbClient.getOneById(item.taskId);
-
-    // if (!getResult.Item) {
-    //     return {
-    //         statusCode: 400,
-    //         body: JSON.stringify(`The comment could not be created. The taskId: ${item.taskId} is not correct`)
-    //     }
-    // }
-
     validateAsIComment(item);
     
     await ddbClient.create({
         id: randomId,
         taskId: item.taskId,
         content: item.content,
-        createdAt: Date.now(),
-        lastUpdated: Date.now()
+        createdAt: new Date().toLocaleDateString('en-US'),
+        lastUpdated: new Date().toLocaleDateString('en-US')
     })
 
     return {

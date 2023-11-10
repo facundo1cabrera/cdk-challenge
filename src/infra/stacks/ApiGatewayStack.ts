@@ -13,11 +13,12 @@ export class ApiGatewayStack extends Stack {
 
         const api = new RestApi(this, 'TasksApi');
         const tasksResource = api.root.addResource('tasks');
+        tasksResource.addMethod('POST', props.tasksLambdaIntegration);
+        tasksResource.addMethod('GET', props.tasksLambdaIntegration);
         const tasksResourceWithIdParam = tasksResource.addResource('{id}');
         tasksResourceWithIdParam.addMethod('GET', props.tasksLambdaIntegration);
         tasksResourceWithIdParam.addMethod('PUT', props.tasksLambdaIntegration);
         tasksResourceWithIdParam.addMethod('DELETE', props.tasksLambdaIntegration);
-        tasksResource.addMethod('POST', props.tasksLambdaIntegration);
         const commentsResource = tasksResourceWithIdParam.addResource('comments');
         commentsResource.addMethod('GET', props.commentsLambdaIntegration);
         commentsResource.addMethod('POST', props.commentsLambdaIntegration);

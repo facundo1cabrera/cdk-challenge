@@ -5,12 +5,12 @@ export const getComments = async (event: APIGatewayProxyEvent, ddbClient: IDbCli
     
     const id = event.pathParameters['id'];
 
-    const result = await ddbClient.getOneById(id);
+    const result = await ddbClient.getById(id);
 
-    if (result.Item) {
+    if (result.Items) {
         return {
             statusCode: 200,
-            body: JSON.stringify(result.Item)
+            body: JSON.stringify(result.Items)
         }
     } else {
         return {
