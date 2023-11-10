@@ -20,7 +20,7 @@ export const updateTask = async (event: APIGatewayProxyEvent, ddbClient: IDbClie
 
     validateAsITask(item);
 
-    const updateResult = await ddbClient.update(id, {
+    await ddbClient.update(id, {
         status: item.status,
         description: item.description,
         lastUpdated: new Date().toLocaleDateString('en-US')
@@ -28,6 +28,6 @@ export const updateTask = async (event: APIGatewayProxyEvent, ddbClient: IDbClie
 
     return {
         statusCode: 204,
-        body: JSON.stringify(updateResult.Attributes)
+        body: JSON.stringify({})
     }
 }
