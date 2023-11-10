@@ -4,16 +4,15 @@ import { getTask } from './getTask';
 import { updateTask } from './updateTask';
 import { deleteTask } from './deleteTask';
 import { IncorrectTypeError, JSONError, MissingFieldError } from '../shared/Validator';
-import { DynamoDocumentClient } from '../DataLayer/DynamoDocumentClient';
+import { TasksPgClient } from '../DataLayer/TasksPgClient';
 
-const dbClient = new DynamoDocumentClient();
+const dbClient = new TasksPgClient();
 
 export const handler = async (event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
   try {
-    
     switch (event.httpMethod) {
       case 'GET':  
-        const getResponse = getTask(event, dbClient);
+        const getResponse = await getTask(event, dbClient);
         return getResponse;
       case 'POST':
         const postResponse = await createTask(event, dbClient);

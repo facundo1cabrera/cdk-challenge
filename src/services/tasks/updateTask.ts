@@ -1,5 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { IDbClient } from "../DataLayer/IDbClient";
+import { parseJSON } from "../shared/Utils";
+import { validateAsITask } from "../shared/Validator";
 
 export const updateTask = async (event: APIGatewayProxyEvent, ddbClient: IDbClient): Promise<APIGatewayProxyResult> => {
     
@@ -14,7 +16,15 @@ export const updateTask = async (event: APIGatewayProxyEvent, ddbClient: IDbClie
         }
     }
 
-    const updateResult = await ddbClient.update(id, event.body);
+    const item = parseJSON(event.body);
+
+    validateAsITask(item);
+
+    const updateResult = await ddbClient.update(id, {
+        status: item.status,
+        description: item.description,
+        lastUpdated: new Date().toLocaleDateString('en-US')
+    });
 
     return {
         statusCode: 204,

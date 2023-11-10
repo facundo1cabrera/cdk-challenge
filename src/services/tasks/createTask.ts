@@ -5,20 +5,19 @@ import { createRandomId, parseJSON } from "../shared/Utils";
 import { IDbClient } from "../DataLayer/IDbClient";
 
 export const createTask = async (event: APIGatewayProxyEvent, ddbClient: IDbClient): Promise<APIGatewayProxyResult> => {
-    const randomId = createRandomId();
     const item: ITask = parseJSON(event.body);
 
     validateAsITask(item);
     
     await ddbClient.create({
-        id: randomId,
         description: item.description,
-        createdAt: Date.now(),
-        lastUpdated: Date.now()
+        status: item.status,
+        createdAt: new Date().toLocaleDateString('en-US'),
+        lastUpdated: new Date().toLocaleDateString('en-US')
     })
 
     return {
         statusCode: 201,
-        body: JSON.stringify({ id: randomId })
+        body: JSON.stringify({})
     }
 }
