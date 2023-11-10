@@ -46,9 +46,12 @@ export class TasksPgClient implements IDbClient {
     async getById(id: string) {
         await this.initConnection();
         const response = await this.postgresClient.query('SELECT * from tasks where id=$1', [id]);
-        return {
-            Item: response.rows[0]
+        if (response.rows.length > 0) {
+            return {
+                Item: response.rows[0]
+            }
         }
+        return {};
     }
     async deleteById(id: string) {
 
