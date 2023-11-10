@@ -3,7 +3,7 @@ import { LambdaIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { Construct } from 'constructs';
 
 interface ApiGatewayStackProps extends StackProps {
-    getTaskLambdaIntegration: LambdaIntegration;
+    tasksLambdaIntegration: LambdaIntegration;
 }
 
 export class ApiGatewayStack extends Stack {
@@ -12,6 +12,10 @@ export class ApiGatewayStack extends Stack {
 
         const api = new RestApi(this, 'TasksApi');
         const tasksResource = api.root.addResource('tasks');
-        tasksResource.addMethod('GET', props.getTaskLambdaIntegration);
+        const tasksResourceWithIdParam = tasksResource.addResource('{id}');
+        tasksResourceWithIdParam.addMethod('GET', props.tasksLambdaIntegration);
+        tasksResourceWithIdParam.addMethod('PUT', props.tasksLambdaIntegration);
+        tasksResourceWithIdParam.addMethod('DELETE', props.tasksLambdaIntegration);
+        tasksResource.addMethod('POST', props.tasksLambdaIntegration);
     }
 }

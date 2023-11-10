@@ -17,5 +17,10 @@
     "constructs": "^10.3.0",
     "esbuild": "^0.19.5",
     "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.445.0",
+    "@aws-sdk/lib-dynamodb": "^3.445.0",
+    "uuid": "^9.0.1"
   }
 }

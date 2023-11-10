@@ -7,5 +7,5 @@ const app = new App();
 const dataStack = new DataStack(app, 'DataStack');
 const lambdaStack = new LambdaStack(app, 'LambdaStack', { tasksTable: dataStack.tasksTable });
 new ApiGatewayStack(app, 'ApiGatewayStack', {
-    getTaskLambdaIntegration: lambdaStack.getTaskLambdaIntegration
+    tasksLambdaIntegration: lambdaStack.tasksLambdaIntegration
 });
