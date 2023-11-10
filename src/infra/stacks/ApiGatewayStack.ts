@@ -4,6 +4,7 @@ import { Construct } from 'constructs';
 
 interface ApiGatewayStackProps extends StackProps {
     tasksLambdaIntegration: LambdaIntegration;
+    commentsLambdaIntegration: LambdaIntegration;
 }
 
 export class ApiGatewayStack extends Stack {
@@ -17,5 +18,8 @@ export class ApiGatewayStack extends Stack {
         tasksResourceWithIdParam.addMethod('PUT', props.tasksLambdaIntegration);
         tasksResourceWithIdParam.addMethod('DELETE', props.tasksLambdaIntegration);
         tasksResource.addMethod('POST', props.tasksLambdaIntegration);
+        const commentsResource = tasksResourceWithIdParam.addResource('comments');
+        commentsResource.addMethod('GET', props.commentsLambdaIntegration);
+        commentsResource.addMethod('POST', props.commentsLambdaIntegration);
     }
 }

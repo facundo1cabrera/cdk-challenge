@@ -7,5 +7,6 @@ const app = new App();
 const dataStack = new DataStack(app, 'DataStack');
 const lambdaStack = new LambdaStack(app, 'LambdaStack', { commentsTable: dataStack.commentsTable });
 new ApiGatewayStack(app, 'ApiGatewayStack', {
-    tasksLambdaIntegration: lambdaStack.tasksLambdaIntegration
+    tasksLambdaIntegration: lambdaStack.tasksLambdaIntegration,
+    commentsLambdaIntegration: lambdaStack.commentsLambdaIntegration
 });
