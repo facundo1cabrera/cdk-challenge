@@ -1,17 +1,11 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DeleteCommand, DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import { IDbClient } from "../DataLayer/IDbClient";
 
-export const deleteTask = async (event: APIGatewayProxyEvent, ddbClient: DynamoDBClient): Promise<APIGatewayProxyResult> => {
+export const deleteTask = async (event: APIGatewayProxyEvent, ddbClient: IDbClient): Promise<APIGatewayProxyResult> => {
     
-    const dynamoDbDocumentClient = DynamoDBDocumentClient.from(ddbClient);
-
     const id = event.pathParameters['id'];
 
-    await dynamoDbDocumentClient.send(new DeleteCommand({
-        TableName: process.env.TABLE_NAME,
-        Key: { id }
-    }));
+    await ddbClient.deleteById(id);
 
     return {
         statusCode: 204,

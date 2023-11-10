@@ -1,13 +1,12 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { createTask } from './createTask';
 import { getTask } from './getTask';
 import { updateTask } from './updateTask';
 import { deleteTask } from './deleteTask';
 import { IncorrectTypeError, JSONError, MissingFieldError } from '../shared/Validator';
+import { DynamoDocumentClient } from '../DataLayer/DynamoDocumentClient';
 
-const dbClient = new DynamoDBClient({});
-
+const dbClient = new DynamoDocumentClient();
 
 export const handler = async (event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
   try {

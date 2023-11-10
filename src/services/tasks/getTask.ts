@@ -1,17 +1,11 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import { IDbClient } from "../DataLayer/IDbClient";
 
-export const getTask = async (event: APIGatewayProxyEvent, ddbClient: DynamoDBClient): Promise<APIGatewayProxyResult> => {
+export const getTask = async (event: APIGatewayProxyEvent, ddbClient: IDbClient): Promise<APIGatewayProxyResult> => {
     
-    const dynamoDbDocumentClient = DynamoDBDocumentClient.from(ddbClient);
-
     const id = event.pathParameters['id'];
 
-    const result = await dynamoDbDocumentClient.send(new GetCommand({
-        TableName: process.env.TABLE_NAME,
-        Key: { id }
-    }));
+    const result = await ddbClient.getOneById(id);
 
     if (result.Item) {
         return {

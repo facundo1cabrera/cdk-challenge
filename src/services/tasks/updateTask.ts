@@ -1,17 +1,11 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import { IDbClient } from "../DataLayer/IDbClient";
 
-export const updateTask = async (event: APIGatewayProxyEvent, ddbClient: DynamoDBClient): Promise<APIGatewayProxyResult> => {
+export const updateTask = async (event: APIGatewayProxyEvent, ddbClient: IDbClient): Promise<APIGatewayProxyResult> => {
     
-    const dynamoDbDocumentClient = DynamoDBDocumentClient.from(ddbClient);
-
     const id = event.pathParameters['id'];
 
-    const getItemResult = await dynamoDbDocumentClient.send(new GetCommand({
-        TableName: process.env.TABLE_NAME,
-        Key: { id }
-    }));
+    const getItemResult = await ddbClient.getOneById(id);
 
     if (!getItemResult.Item) {
         return {
@@ -20,23 +14,7 @@ export const updateTask = async (event: APIGatewayProxyEvent, ddbClient: DynamoD
         }
     }
 
-    const parsedBody = JSON.parse(event.body)
-
-    const requestBodyKey = Object.keys(parsedBody)[0];
-    const requestBodyValue = parsedBody[requestBodyKey];
-
-    const updateResult = await dynamoDbDocumentClient.send(new UpdateCommand({
-        TableName: process.env.TABLE_NAME,
-        Key: { id },
-        UpdateExpression: 'set #attributeName = :newValue',
-        ExpressionAttributeValues: {
-            ':newValue': requestBodyValue
-        },
-        ExpressionAttributeNames: {
-           '#attributeName': requestBodyKey 
-        },
-        ReturnValues: 'UPDATED_NEW'
-    }));
+    const updateResult = await ddbClient.update(id, event.body);
 
     return {
         statusCode: 204,
