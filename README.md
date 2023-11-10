@@ -90,7 +90,7 @@ However, there are still improvements to be made concerning the abstraction of t
 ## Tests
 I have developed some unit tests about the lambda code (mocking the Data Layer responses) in order to assure the right behavior regarding Error Handling, Model Validation and Lambda responses.
 You can run this tests with the following commands.
-Make sure you have Node 18 in your compute.
+Make sure you have Node 18 in your computer.
 `npm install`
 `npm run test`
 
