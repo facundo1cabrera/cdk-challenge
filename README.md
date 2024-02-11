@@ -74,7 +74,7 @@ Base url: https://029aj3jmpb.execute-api.us-east-1.amazonaws.com/prod/
   ]
   `
 
-## Api Desing
+## Api Design
 I have opted to simplify the API design by using only two Lambda functions, with each function responsible for handling all HTTP methods.
 The architecture involves an ApiGateway routing Tasks-related requests to one Lambda function and Comments-related requests to another Lambda.
 
